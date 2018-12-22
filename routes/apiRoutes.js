@@ -16,7 +16,7 @@ app.get("/scrape", function(req, res) {
       var $ = cheerio.load(response.data);
   
       // Now, we grab every h2 within an article tag, and do the following:
-      $("quoteDetails").each(function(i, element) {
+      $(".quoteDetails").each(function(i, element) {
         // Save an empty result object
         var result = {};
   
