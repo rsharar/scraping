@@ -1,0 +1,19 @@
+{{#each articles}}
+<li class="articles list-group-item">
+    <h5>{{quote}}</h5>
+    <p>{{author}}</p>
+    <div class="row">
+        <div class="col text-right">
+            <button class="btn comment-btn collapsed" data-toggle="collapse" data-target="#a{{_id}}"><small>Comments</small></button>
+        </div>
+    </div>
+    {{!-- <div id="a{{_id}}" class="collapse m-3">
+        <br><br> 
+        <ul class="list-group comment-list" data-id="{{_id}}">
+            {{#each comment}}
+                {{> comments}}
+            {{/each}}
+        </ul>
+    </div> --}}
+</li>
+{{/each}}
