@@ -1,7 +1,8 @@
-{{#each articles}}
-<li class="articles list-group-item">
+{{#each quotes}}
+<li class="quotes list-group-item">
     <h5>{{quote}}</h5>
     <p>{{author}}</p>
+    <a href={{img}}></a>
     <div class="row">
         <div class="col text-right">
             <button class="btn comment-btn collapsed" data-toggle="collapse" data-target="#a{{_id}}"><small>Comments</small></button>

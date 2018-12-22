@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-// ArticleSchema object created with Schema constructor
-var ArticleSchema = new Schema ({
+// QuoteSchema object created with Schema constructor
+var QuoteSchema = new Schema ({
     // quote is a required string
     quote: {
         type: String,
@@ -15,8 +15,8 @@ var ArticleSchema = new Schema ({
     }
 })
 
-// Create the from the ArticleSchema
+// Create the from the Quoteschema
 
-var Article = mongoose.model("Article", ArticleSchema);
+var Quote = mongoose.model("Quote", QuoteSchema);
 
-module.exports = Article
+module.exports = Quote

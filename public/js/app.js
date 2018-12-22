@@ -1,8 +1,24 @@
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
-    // For each one
-    for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+function showQuotes(quote, author) {
+    var quote = $("<li>").addClass("quotes list-group-item");
+    var author = $("<h5>").text(author);
+}
+
+function pullQuotes(quotes) {
+    for (var j = 0; j < quotes.length; j++) {
+        var quote = quotes[i].quote;
+        var author = quotes[i].author;
+        showQuotes(quote, author)
     }
-  });
+}
+
+$("#new-quotes-btn").on("click", function () {
+    console.log('test');
+    $.get("/scrape", function (data) {
+        var newQuotes = [];
+        for (var i in data) {
+            var quote = data[i];
+            newQuotes.push(quote)
+        }
+        pullQuotes(newQuotes);
+    })
+})
