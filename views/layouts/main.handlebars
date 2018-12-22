@@ -19,12 +19,22 @@
     {{!-- App JS --}}
     {{!-- <script type="text/javascript" src="/public/js/app.js"></script> --}}
     <script>
+        function displayQuotes(data){
+            var newQuote = $("<li>").addClass("quotes list-group-item");
+            var quote = $("<h5>").text(data.quote);
+            var author = $("<p>").text(data.author);
+            
+            newQuote.append(quote,author)
+            $("#quotes-list").append(newQuote);
+        }
+
+
 
         // this should be in app.js but I can't get the rel path
         $("#new-quotes-btn").on("click", function() {
-        console.log('test');
         $.get("/scrape",function(data){
             console.log(data);
+            displayQuotes(data);
         })
 
 
