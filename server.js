@@ -1,11 +1,8 @@
 var express = require("express");
 var mongoose = require("mongoose");
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
+var exphbs = require("express-handlebars");
 
 // Require all models
 // var db = require("./models");
@@ -28,8 +25,52 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 
 mongoose.connect(MONGODB_URI)
 
-// Routes
+// Set up express handlebars
+app.engine("handlebars", exphbs({
+  defaultLayout: "main"
+})
+)
+app.set("view engine","handlebars");
 
+
+// Routes
+app.get("/scrape",function(req,res){
+  axios.get("https://www.goodreads.com/quotes").then(function(response){
+  // Load HTML into cheero
+  // Use $ as cheerio selector  
+  var $ = cheerio.load(response.data);
+  // // Declar empty arr to store results of scrape
+  // var result = [];
+
+
+    $(".quoteDetails").each(function(i,elem){
+
+      var quote = $(elem).children("div").text();
+
+
+
+
+      if (quote){
+        db.scrapeData.insert({
+          quote: quote
+        },
+        function(err,inserted){
+          if (err){
+            console.log(err);
+          }
+          else{
+            console.log(inserted);
+          }})
+        }}
+        )
+      })
+      res.send("Scraped");
+    })
+
+// Test routes
+app.get("/", function (req,res){
+  res.render("index",{title: "This is the homepage"})
+});
 
 // Start the server
 app.listen(PORT, function() {
