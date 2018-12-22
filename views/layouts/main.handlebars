@@ -17,30 +17,34 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
     {{!-- App JS --}}
-    {{!-- <script type="text/javascript" src="/public/js/app.js"></script> --}}
+    {{!--
+    <script type="text/javascript" src="/public/js/app.js"></script> --}}
     <script>
-        function displayQuotes(data){
+
+        function displayQuotes(resultsArr) {
             var newQuote = $("<li>").addClass("quotes list-group-item");
-            var quote = $("<h5>").text(data.quote);
-            var author = $("<p>").text(data.author);
-            
-            newQuote.append(quote,author)
+
+            for (var i in resultsArr) {
+                if (data.hasOwnProperty(key)){
+                var quote = $("<h5>").text(resultsArr[i].quote);
+                var author = $("<p>").text(resultsArr[i].author);
+                newQuote.append(quote, author)
+            }
             $("#quotes-list").append(newQuote);
+            }
         }
 
-
-
         // this should be in app.js but I can't get the rel path
-        $("#new-quotes-btn").on("click", function() {
-        $.get("/scrape",function(data){
-            console.log(data);
-            displayQuotes(data);
-        })
+        $("#new-quotes-btn").on("click", function () {
+            $.get("/scrape", function (resultsArr) {
+                // console.log(data);
+                    displayQuotes(resultsArr);
+            })
 
 
 
 
-});
+        });
     </script>
 </body>
 

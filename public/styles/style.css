@@ -1,3 +1,7 @@
+body{
+    background-image: url("/img/lion.jpg");
+}
+
 .quote-container{
     padding-top: 20px;
 }

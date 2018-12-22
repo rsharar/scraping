@@ -17,16 +17,18 @@ app.get("/scrape", function(req, res) {
   
       // Now, we grab every h2 within an article tag, and do the following:
       $(".quoteDetails").each(function(i, element) {
+        // empty arr
+        var resultsArr=[];
         // Save an empty result object
         var result = {};
-  
         // Add the text and href of every link, and save them as properties of the result object
         result.quote = $(this).find(".quoteText").text();
         result.author = $(this).find(".authorOrTitle").text();
         result.link = $(this)
           .children("a")
           .attr("href");
-  
+        resultsArr.push(result);
+        // console.log(resultsArr);
         // Create a new Article using the `result` object built from scraping
         db.Quote.create(result)
           .then(function(dbQuote) {
@@ -35,12 +37,12 @@ app.get("/scrape", function(req, res) {
           })
           .catch(function(err) {
             // If an error occurred, log it
-            console.log(err);
+            // console.log(err);
           });
       });
   
       // Send a message to the client
-      res.send("Scrape Complete");
+      res.send(reusltsArr);
     });
   });
   

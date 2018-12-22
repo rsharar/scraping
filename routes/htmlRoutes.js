@@ -3,7 +3,7 @@ var db = require("../models");
 module.exports = function(app){
     app.get("/", function(req, res){
         // Sort by recency and limit to 10 quotes
-        db.Quote.find().sort({createdDate: -1}).populate("comment").limit(10).then(function(quotes, err){
+        db.Quote.find().sort({createdDate: -1}).populate("comment").limit(1).then(function(quotes, err){
             if(err){
                 return console.log(err);
             }
