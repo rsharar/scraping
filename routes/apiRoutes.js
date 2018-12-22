@@ -1,70 +1,60 @@
 // External dependencies
 var cheerio = require("cheerio");
 var axios = require("axios");
-var async = require("async");
 
 // Import all models
 var db = require("../models");
 
-module.exports = function (app) {
 
-    // Scrapes new quotes from the web
-    app.get("/scrape", function (req, res) {
-        axios.get("https://www.goodreads.com/quotes/tag/inspirational").then(function (response) {
-            var $ = cheerio.load(response.data);
-            var functionsObjs = {};
-            $(".quoteDetails").each(function (i) {
-                var result = {};
-                result.quote = $(this).find(".quoteText").text();
-                result.author = $(this).find(".authorOrTitle").text();
-                // Stores database function as a method in an object
-                functionsObjs[i] = function (cb) {
-                    db.Quote.create(result, function (err, dbQuote) {
-                        if (err) {
-                            return cb(null, "Error: " + err.errmsg);
-                        }
-                        cb(null, dbQuote);
-                    });
-                }
-            });
-            // Runs all async methods in the functions object and returns results(error or quote)
-            async.series(functionsObjs, function (err, results) {
-                res.send(results);
-            });
-        });
-    });
-
-    // Post Comment
-    app.post("/comment", function (req, res) {
-        var comment = {
-            comment: req.body.body,
-        };
-        // Creates comment in the database and updates correponding quote
-        db.Comment.create(comment).then(function (dbComment) {
-            return db.Quote.findOneAndUpdate({ _id: req.body.quoteId }, { $push: { comment: dbComment._id } }, { new: true }).populate("comment")
-        }).then(function (dbQuote) {
-            var index = (dbQuote.comment.length) - 1;
-            var newComment = dbQuote.comment[index];
-            // Returns created comment to the front-end
-            res.json([newComment]);
-        }).catch(function (err) {
+// -------- STARTER CODE --------- //
+module.exports = function (app){
+// A GET route for scraping the echoJS website
+app.get("/scrape", function(req, res) {
+    // First, we grab the body of the html with axios
+    axios.get("https://www.goodreads.com/quotes/tag/inspirational").then(function(response) {
+      // Then, we load that into cheerio and save it to $ for a shorthand selector
+      var $ = cheerio.load(response.data);
+  
+      // Now, we grab every h2 within an article tag, and do the following:
+      $("quoteDetails").each(function(i, element) {
+        // Save an empty result object
+        var result = {};
+  
+        // Add the text and href of every link, and save them as properties of the result object
+        result.quote = $(this).find(".quoteText").text();
+        result.author = $(this).find(".authorOrTitle").text();
+        result.link = $(this)
+          .children("a")
+          .attr("href");
+  
+        // Create a new Article using the `result` object built from scraping
+        db.Quote.create(result)
+          .then(function(dbQuote) {
+            // View the added result in the console
+            console.log(dbQuote);
+          })
+          .catch(function(err) {
+            // If an error occurred, log it
             console.log(err);
-        });
+          });
+      });
+  
+      // Send a message to the client
+      res.send("Scrape Complete");
     });
-
-    app.delete("/comment/:commentId/:quoteId", function (req, res) {
-        var commentId = req.params.commentId;
-        var quoteId = req.params.quoteId;
-        db.Comment.deleteOne({ _id: commentId }).then(function (data, err) {
-            if (err) {
-                return console.log(err);
-            }
-            db.Quote.updateOne({ _id: quoteId }, { $pull: { comment: commentId } }).then(function (data, err) {
-                if (err) {
-                    return console.log(err);
-                }
-                res.sendStatus(200);
-            });
-        });
-    });
+  });
+  
+  // Route for getting all Articles from the db
+  app.get("/quotes", function(req, res) {
+    // Grab every document in the Articles collection
+    db.Quote.find({})
+      .then(function(dbQuote) {
+        // If we were able to successfully find Articles, send them back to the client
+        res.json(dbQuote);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+  });
 }
