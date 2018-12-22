@@ -14,3 +14,9 @@ var ArticleSchema = new Schema ({
         required: true
     }
 })
+
+// Create the from the ArticleSchema
+
+var Article = mongoose.model("Article", ArticleSchema);
+
+module.exports = Article
