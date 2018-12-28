@@ -29,7 +29,7 @@ app.get("/scrape", function(req, res) {
           .attr("href");
         resultsArr.push(result);
         // console.log(resultsArr);
-        // Create a new Article using the `result` object built from scraping
+        // Create a new Quote using the `result` object built from scraping
         db.Quote.create(result)
           .then(function(dbQuote) {
             // View the added result in the console
@@ -37,21 +37,22 @@ app.get("/scrape", function(req, res) {
           })
           .catch(function(err) {
             // If an error occurred, log it
-            // console.log(err);
+            console.log(err);
           });
       });
   
       // Send a message to the client
-      res.send(reusltsArr);
+      res.json(resultsArr);
     });
   });
   
-  // Route for getting all Articles from the db
+  
+  // Route for getting all Quotes from the db
   app.get("/quotes", function(req, res) {
-    // Grab every document in the Articles collection
+    // Grab every document in the Quotes collection
     db.Quote.find({})
       .then(function(dbQuote) {
-        // If we were able to successfully find Articles, send them back to the client
+        // If we were able to successfully find Quotes, send them back to the client
         res.json(dbQuote);
       })
       .catch(function(err) {

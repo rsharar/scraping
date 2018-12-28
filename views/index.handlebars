@@ -1,27 +1,51 @@
+
 {{!-- Navbar --}}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">INSPIRE ME!</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  </nav>
+</nav>
 
 
 {{!-- New quotes button --}}
 <div class="container btn-container text-center">
-<button type="button" class="btn btn-primary" id="new-quotes-btn">Find me some inspirational quotes!</button>
+  <button type="button" class="btn btn-primary" id="new-quotes-btn">Find me some inspirational quotes!</button>
 </div>
 
 {{!-- Quotes --}}
 <div class="container quote-container">
-<section id="quote-body">
-  <div class="container">
-    <ul class="quotes" id="quotes-list">
+  <section id="quote-body">
+    <div class="container">
+      <ul class="quotes" id="quotes-list">
         {{> quotes}}
-    </ul>
-  </div>
-</section>
+      </ul>
+    </div>
+  </section>
 </div>
+
+ {{!-- Comments Modal --}}
+<div class="modal fade in" id="quoteModal" tabindex="-1" role="dialog" aria-labelledby="quoteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quoteModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="notes"></p>
+        <textarea id="comment" rows="5" cols="55" placeholder="Enter a comment."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary btn-sm add">Save Comment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {{!-- Footer --}}
 {{!-- <footer class="page-footer font-small blue">

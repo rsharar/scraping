@@ -1,6 +1,7 @@
-body{
+/* body{
     background-image: url("/img/lion.jpg");
-}
+    background-size: 100%;
+} */
 
 .quote-container{
     padding-top: 20px;

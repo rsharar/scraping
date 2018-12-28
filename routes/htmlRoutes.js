@@ -2,8 +2,8 @@ var db = require("../models");
 
 module.exports = function(app){
     app.get("/", function(req, res){
-        // Sort by recency and limit to 10 quotes
-        db.Quote.find().sort({createdDate: -1}).populate("comment").limit(1).then(function(quotes, err){
+        // Sort by recency and limit to 5 quotes
+        db.Quote.find().sort({createdDate: -1}).populate("comment").limit(5).then(function(quotes, err){
             if(err){
                 return console.log(err);
             }
@@ -14,12 +14,11 @@ module.exports = function(app){
             }
         });
     });
-    // General catch for invalid urls
+    // Catch for invalid URLs
     app.get("*", function(req, res){
         res.render("error", {
             message: "Error",
             link: "/",
-            linkName: "Main Page"
         });
     });
 };
