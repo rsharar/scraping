@@ -60,16 +60,20 @@ module.exports = function (app) {
         res.json(err);
       });
   });
-  // Route for saving quotes to the db
+  // Route for saving comments to the db
   app.post("/api/comment",function(req,res){
-    console.log("req.body.quoteId: " + req.body.quoteId)
-
+    // req.body.quoteId === obj Id of the QUOTE in db
+    // regardless of which comment btn is clicked, only first quoteId is getting registered
+    
     db.Comment.create({
       body: req.body.body
     }).then(function(dbComment){
+      console.log(dbComment)
+
       return db.Quote.findOneAndUpdate(
         {_id: req.body.quoteId},
-        {$push: {comment: dbComment._id}
+        {$push: {comments: dbComment._id}},
+        {new: true})
       })
       .then(function(dbComments){
         res.json(dbComments);
@@ -77,11 +81,10 @@ module.exports = function (app) {
       .catch(function(err){
         res.json(err);
       })
-    })
     });
-    // get comment by commentId
+    // get comments by quoteId
     app.get("/comments/:quoteId",function(req,res){
-      db.Comments.findOne({
+      db.Quotes.findOne({
         _id: req.params.quoteId
       }).populate("Comment").then(function(dbComment){
         res.json(dbComment);
