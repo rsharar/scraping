@@ -82,7 +82,7 @@ module.exports = function (app) {
     // TODO: set up API route to get all comments
     app.get("/comments/:quoteId",function(req,res){
       db.Comment.findOne({
-        quoteId: req.params.quoteId
+        _id: req.params.quoteId
       }).populate("comments").then(function(dbComment){
         res.json(dbComment);
       }).catch(function(err){
