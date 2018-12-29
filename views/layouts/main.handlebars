@@ -51,12 +51,20 @@
             })
         });
 
-        // --------- COMMENTS JS --------- //
-        // function displayComments(commentsArr){
+        // --------- VIEW COMMENTS ----------- //
+        function displayComments(data){
+            $("#comments").text("");
+            console.log("line 57: "+ data);
+            for (var i=0; i<data.length; i++){
+                $("#comments").append(i.body);
+            }
+        };
+        // --------- VIEW COMMENTS EVENT LISTENER ------- //
+        $(".comment-btn").on("click",function(data){
+            displayComments(data);
+        })
 
-        //}
-
-
+        // --------- SAVE COMMENTS JS --------- //
         $("#save-comment-btn").on("click", function (event) {
             event.preventDefault();
             var body = $("#comment").val().trim();
