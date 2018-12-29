@@ -71,7 +71,7 @@
         $("#save-comment-btn").on("click", function (event) {
             event.preventDefault();
             var body = $("#comment").val().trim();
-            var quoteId = $(".comment-btn").attr("data-id");
+            var quoteId = $(this).attr("data-id");
             if (comment) {
                 var commentObj = {
                     body: body,
