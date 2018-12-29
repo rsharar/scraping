@@ -28,6 +28,8 @@
     <script type="text/javascript" src="/public/js/app.js"></script> --}}
     <script>
 
+        // --------- QUOTES JS -------- ///
+        // show quotes from DB function
         function displayQuotes(resultsArr) {
             var newQuote = $("<li>").addClass("quotes list-group-item");
 
@@ -48,6 +50,18 @@
                 displayQuotes(resultsArr);
             })
         });
+
+        // --------- COMMENTS JS --------- //
+        // function displayComments(commentsArr){
+             
+        //}
+
+
+        $("#save-comment-btn").on("click",function(){
+            event.preventDefault();
+            console.log("test");
+            // $.post("/api/comment",function())
+        })
 
 
     </script>

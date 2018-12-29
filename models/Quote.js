@@ -12,7 +12,13 @@ var QuoteSchema = new Schema ({
     author: {
         type: String,
         required: true
-    }
+    },
+    comments:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Comment"
+        }
+    ]
 })
 
 // Create the from the Quoteschema
