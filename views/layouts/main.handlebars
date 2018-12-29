@@ -53,14 +53,25 @@
 
         // --------- COMMENTS JS --------- //
         // function displayComments(commentsArr){
-             
+
         //}
 
 
-        $("#save-comment-btn").on("click",function(){
+        $("#save-comment-btn").on("click", function (event) {
             event.preventDefault();
-            console.log("test");
-            // $.post("/api/comment",function())
+            var comment = $("#comment").val().trim();
+            var articleId = $(".comment-btn").attr("data-id");
+            if (comment) {
+                var commentData = {
+                    comment: comment,
+                    articleId: articleId
+                };
+                console.log(comment, articleId);
+            }
+
+            $.post("/api/comment", function (){
+
+            })
         })
 
 
