@@ -79,17 +79,27 @@ module.exports = function (app) {
       })
     })
     });
-    // TODO: set up API route to get all comments
+    // get comment by commentId
     app.get("/comments/:quoteId",function(req,res){
-      db.Comment.findOne({
+      db.Comments.findOne({
         _id: req.params.quoteId
-      }).populate("comments").then(function(dbComment){
+      }).populate("Comment").then(function(dbComment){
         res.json(dbComment);
       }).catch(function(err){
         console.log(err);
       });
     })
 
+    // get all comments
+    app.get("/comments",function(req,res){
+      db.Comment.find({})
+      .then(function(dbComments){
+        res.json(dbComments)
+      })
+      .catch(function(err){
+        console.log(err);
+      })
+    })
   // // Route for loading saved comments from db
   // app.get("/comments", function (req, res) {
   //   db.Comment({})

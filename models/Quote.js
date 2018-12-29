@@ -13,6 +13,10 @@ var QuoteSchema = new Schema ({
         type: String,
         required: true
     },
+    saved: {
+        type: Boolean,
+        default: false
+    },
     comments:[
         {
             type: Schema.Types.ObjectId,
@@ -25,4 +29,4 @@ var QuoteSchema = new Schema ({
 
 var Quote = mongoose.model("Quote", QuoteSchema);
 
-module.exports = Quote
+module.exports = Quote;
