@@ -62,13 +62,13 @@ module.exports = function (app) {
   });
   // Route for saving quotes to the db
   app.post("/api/comment",function(req,res){
-    console.log("req.body.articleId: " + req.body.articleId)
+    console.log("req.body.quoteId: " + req.body.quoteId)
 
     db.Comment.create({
       body: req.body.body
     }).then(function(dbComment){
       return db.Quote.findOneAndUpdate(
-        {_id: req.body.articleId},
+        {_id: req.body.quoteId},
         {$push: {comment: dbComment._id}
       })
       .then(function(dbComments){
@@ -79,13 +79,22 @@ module.exports = function (app) {
       })
     })
     });
+    // TODO: set up API route to get all comments
+    app.get("/comments/:quoteId",function(req,res){
+      db.Comment.findOne({
+        quoteId: req.params.quoteId
+      }).populate("comments").then(function(dbComment){
+        res.json(dbComment);
+      }).catch(function(err){
+        console.log(err);
+      });
+    })
 
-
-  // Route for loading saved comments from db
+  // // Route for loading saved comments from db
   // app.get("/comments", function (req, res) {
   //   db.Comment({})
-  //     .then(function (dbNote) {
-  //       res.json(dbNote);
+  //     .then(function (dbComment) {
+  //       res.json(dbComment);
   //     })
   //     .catch(function (err) {
   //       // If an error occurred, send it to the client

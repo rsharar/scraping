@@ -52,37 +52,39 @@
         });
 
         // --------- VIEW COMMENTS ----------- //
-        function displayComments(data){
-            $("#comments").text("");
-            console.log("line 57: "+ data);
-            for (var i=0; i<data.length; i++){
-                $("#comments").append(i.body);
-            }
-        };
+
         // --------- VIEW COMMENTS EVENT LISTENER ------- //
-        $(".comment-btn").on("click",function(data){
-            displayComments(data);
-        })
+        $(".comment-btn").on("click", function (data) {
+            var commentId = $(".comment-btn").attr("data-id");
+            console.log(commentId)
+            $.ajax("/api/comments/" + commentId, {
+                type: "GET"
+            }).then(function() {
+                $("#comments").text("");
+                for (var i = 0; i < data.length; i++) {
+                    $("#comments").append(i.body);
+                }
+            });
+        });
 
         // --------- SAVE COMMENTS JS --------- //
         $("#save-comment-btn").on("click", function (event) {
             event.preventDefault();
             var body = $("#comment").val().trim();
-            var articleId = $(".comment-btn").attr("data-id");
+            var quoteId = $(".comment-btn").attr("data-id");
             if (comment) {
                 var commentObj = {
                     body: body,
-                    articleId: articleId
+                    quoteId: quoteId
                 };
                 console.log("body: " + body)
-                console.log("articleId: " + articleId);
+                console.log("quoteId: " + quoteId);
             }
-
             $.ajax("/api/comment", {
                 type: "POST",
                 data: commentObj
             }).then(function (data) {
-                if (data){
+                if (data) {
                     console.log(commentObj);
                     location.reload();
                 }
