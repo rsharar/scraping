@@ -61,48 +61,49 @@ module.exports = function (app) {
       });
   });
   // Route for saving comments to the db
-  app.post("/api/comment",function(req,res){
+  app.post("/api/comment", function (req, res) {
     // req.body.quoteId === obj Id of the QUOTE in db
     // regardless of which comment btn is clicked, only first quoteId is getting registered
-    
+
     db.Comment.create({
       body: req.body.body
-    }).then(function(dbComment){
+    }).then(function (dbComment) {
       console.log(dbComment)
 
       return db.Quote.findOneAndUpdate(
-        {_id: req.body.quoteId},
-        {$push: {comments: dbComment._id}},
-        {new: true})
-      })
-      .then(function(dbComments){
+        { _id: req.body.quoteId },
+        { $push: { comments: dbComment._id } },
+        { new: true }
+      )
+    })
+      .then(function (dbComments) {
         res.json(dbComments);
       })
-      .catch(function(err){
+      .catch(function (err) {
         res.json(err);
       })
+  });
+  // get comments by quoteId
+  app.get("/comments/:quoteId", function (req, res) {
+    db.Quotes.findOne({
+      _id: req.params.quoteId
+    }).populate("Comment").then(function (dbComment) {
+      res.json(dbComment);
+    }).catch(function (err) {
+      console.log(err);
     });
-    // get comments by quoteId
-    app.get("/comments/:quoteId",function(req,res){
-      db.Quotes.findOne({
-        _id: req.params.quoteId
-      }).populate("Comment").then(function(dbComment){
-        res.json(dbComment);
-      }).catch(function(err){
-        console.log(err);
-      });
-    })
+  })
 
-    // get all comments
-    app.get("/comments",function(req,res){
-      db.Comment.find({})
-      .then(function(dbComments){
+  // get all comments
+  app.get("/comments", function (req, res) {
+    db.Comment.find({})
+      .then(function (dbComments) {
         res.json(dbComments)
       })
-      .catch(function(err){
+      .catch(function (err) {
         console.log(err);
       })
-    })
+  })
   // // Route for loading saved comments from db
   // app.get("/comments", function (req, res) {
   //   db.Comment({})
