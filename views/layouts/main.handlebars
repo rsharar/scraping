@@ -55,8 +55,8 @@
 
         // --------- VIEW COMMENTS EVENT LISTENER ------- //
         $(".comment-btn").on("click", function (data) {
-            var commentId = $(".comment-btn").attr("data-id");
-            console.log(commentId)
+            var commentId = $(this).attr("data-id");
+            console.log("commentId: " + commentId)
             $.ajax("/api/comments/" + commentId, {
                 type: "GET"
             }).then(function() {
@@ -86,7 +86,7 @@
             }).then(function (data) {
                 if (data) {
                     console.log(commentObj);
-                    location.reload();
+                    // location.reload();
                 }
             })
         })

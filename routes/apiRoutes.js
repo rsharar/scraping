@@ -68,7 +68,6 @@ module.exports = function (app) {
     db.Comment.create({
       body: req.body.body
     }).then(function (dbComment) {
-      console.log(dbComment)
 
       return db.Quote.findOneAndUpdate(
         { _id: req.body.quoteId },
