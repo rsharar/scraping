@@ -1,7 +1,7 @@
 // External dependencies
 var cheerio = require("cheerio");
 var axios = require("axios");
-
+var mongoose = require("mongoose")
 // Import all models
 var db = require("../models");
 
@@ -67,8 +67,8 @@ module.exports = function (app) {
     db.Comment.create({
       body: req.body.body
     }).then(function(dbComment){
-      return db.Quote.findOneAndUpdate({
-        _id: mongoose.Types.ObjectId(req.body.articleId)},
+      return db.Quote.findOneAndUpdate(
+        {_id: req.body.articleId},
         {$push: {comment: dbComment._id}
       })
       .then(function(dbComments){

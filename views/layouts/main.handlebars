@@ -59,18 +59,24 @@
 
         $("#save-comment-btn").on("click", function (event) {
             event.preventDefault();
-            var comment = $("#comment").val().trim();
+            var body = $("#comment").val().trim();
             var articleId = $(".comment-btn").attr("data-id");
             if (comment) {
-                var commentData = {
-                    comment: comment,
+                var commentObj = {
+                    body: body,
                     articleId: articleId
                 };
-                console.log(comment, articleId);
+                console.log("body: " + body)
+                console.log("articleId: " + articleId);
             }
 
-            $.post("/api/comment", function (commentData) {
-                displayComments(commentData)
+            $.ajax("/api/comment", {
+                type: "POST",
+                data: commentObj
+            }).then(function (data) {
+                if (data){
+                    console.log(data);
+                }
             })
         })
 
